@@ -60,7 +60,7 @@ Hard-E is composed of several logical components:
    - Planned integration with Palantir Foundry for analytics and pricing.
 
 6. **Integrations**  
-   - **Leap CRM** (planned/experimental): sync client records and pipeline data.  
+   - **Leap CRM**: sync client records and pipeline data.  
    - **Supplier APIs / ABC Supply**: real-time and historical material pricing.  
    - **HOVER / proposal tools**: structured data from project scans and line items.
 
@@ -77,6 +77,8 @@ Hard-E is composed of several logical components:
 - OpenAI Agents SDK (multi-agent orchestration)
 - Whisper (speech-to-text)
 - TTS (text-to-speech, multiple providers configurable via env)
+- Xai's Grok (writing synthesis)
+- ElevenLabs (TTS for Primer Video Generations)
 
 **Cloud & Data**
 - AWS EC2 (main app hosting)
