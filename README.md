@@ -41,24 +41,25 @@ Hard-E is composed of several logical components:
    - Maintains conversation-wide context and state.
 
 2. **Specialized Agents** (see `docs/agent-roles.md`)  
+   - `LeapCRMtAgent`  – integration with LeamCRM via text and voice commands.
    - `PrimerVideoAgent` – generates explainer/primer scripts for homeowners.  
    - `NewClientsAgent` – handles intake, qualification, and initial call flow.  
    - `ClientProfileAgent` – builds structured client profiles from transcripts & CRM data.  
    - `ScriptCoachAgent` – helps reps rehearse or refine pitch scripts.  
-   - `PriceAnalystAgent` (planned) – looks at material pricing trends and margin impact.
+   - `PriceAnalystAgent` – looks at material pricing trends and margin impact.
 
-3. **Voice I/O Pipeline**  
+4. **Voice I/O Pipeline**  
    - Whisper STT → text → MotherAgent + specialized agents → text response → TTS → audio stream to the user.  
    - Designed with a two-phase streaming plan:
      - **Fire & Stitch** (chunked TTS with fast first audio),
      - **Live Stream** (full duplex, websocket-based streaming).
 
-4. **Transcript & Data Layer**  
+5. **Transcript & Data Layer**  
    - Audio and transcripts stored in S3.  
    - Metadata (client ID, property, project scope) persisted for reuse.  
    - Planned integration with Palantir Foundry for analytics and pricing.
 
-5. **Integrations**  
+6. **Integrations**  
    - **Leap CRM** (planned/experimental): sync client records and pipeline data.  
    - **Supplier APIs / ABC Supply**: real-time and historical material pricing.  
    - **HOVER / proposal tools**: structured data from project scans and line items.
