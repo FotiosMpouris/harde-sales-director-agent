@@ -3,7 +3,7 @@
 **Hard-E** is a production-deployed AI Sales Director application built for **Patriot Contracting Inc.**, designed to function as an **autonomous AI employee** rather than a traditional assistant. It handles complex sales workflows through natural conversation, generates customer-facing content, and executes multi-step autonomous pipelines—all without requiring users to learn software interfaces.
 
 > **This repository is an architecture showcase.**  
-> The production system runs at https://streaming.harde.app on private AWS infrastructure with proprietary integrations, API credentials, and customer data that are not included here.
+> The production system is available only for scheduled demos. Please visit https://harde.app and book an appointment. This system itself runs on private AWS infrastructure with proprietary integrations, API credentials, and customer data that are not included here.
 
 ---
 
@@ -23,7 +23,7 @@ Hard-E doesn't assist with sales—it **performs** sales operations as an autono
 
 ---
 
-## Current Capabilities (Production, November 2024)
+## Current Capabilities (Production, December 2024)
 
 ### Core Operations
 
@@ -159,10 +159,6 @@ Text → OpenAI TTS → MP3
      → Enhanced MP3 → Video Assembly
 ```
 
-**Current Limitations:**
-- Batch generation only (no real-time streaming during conversation)
-- Single-user sessions
-- No live voice input (text-based only)
 
 **v3.0 Vision:**
 - Real-time voice streaming (sub-250ms latency)
@@ -247,7 +243,7 @@ Text → OpenAI TTS → MP3
 - **Backend:** FastAPI (replacing Streamlit server)
 - **State:** Redis (replacing session state)
 - **Voice:** Real-time streaming with Retell/Vapi webhooks
-- **Deployment:** New EC2 instance at https://next.harde.app
+- **Deployment:** New EC2 instance at https://harde.app
 
 **Key Improvements:**
 - Sub-250ms voice latency
@@ -298,9 +294,8 @@ The primer video pipeline represents a fundamental shift from AI assistance to A
 1. Sales Director sends email: *"Please produce Primer Video for [customer]"*
 2. Hard-E daemon detects email (60-second polling)
 3. System executes 10-step workflow without human intervention
-4. 18-22 minutes later: Video delivered via Google Drive link
-5. Notifications sent to CRM and customer
-6. All temporary files cleaned up automatically
+4. Notifications sent to CRM and customer
+5. All temporary files cleaned up automatically
 
 **This is not automation. This is autonomous execution.**
 
@@ -315,38 +310,6 @@ Hard-E proves that AI can perform complex multi-step business workflows with zer
 
 ---
 
-## Repository Contents
-
-This repository contains safe, non-sensitive architectural documentation only:
-
-```
-/
-├── README.md                          # This file
-├── .env.example                       # Documented environment variables (no real secrets)
-├── agent_config.yaml                  # Complete agent and tool configuration
-├── docs/
-│   ├── architecture-deep-dive.md     # Technical architecture details
-│   ├── agent-roles-detailed.md       # In-depth agent responsibilities
-│   ├── autonomous-workflows.md       # Primer video pipeline documentation
-│   ├── voice-pipeline-evolution.md   # Audio generation approaches
-│   ├── v3-migration-strategy.md      # React/FastAPI transition plan
-│   └── integration-patterns.md       # CRM and external API approaches
-└── examples/
-    ├── sample_conversation.txt       # Synthetic conversation flow
-    ├── agent_handoff_sequence.txt    # Multi-agent coordination example
-    ├── autonomous_workflow_log.txt   # Primer video pipeline execution trace
-    └── tool_call_examples.py         # Pseudo-code for tool implementations
-```
-
-**Not Included:**
-- Real API keys or credentials
-- Customer data or PII
-- Proprietary CRM integration code
-- Production deployment scripts with secrets
-- Internal knowledge base content
-- Actual call transcripts or recordings
-
----
 
 ## Key Design Principles
 
@@ -370,29 +333,6 @@ Hard-E performs actual business operations (CRM writes, file generation, API cal
 
 ---
 
-## Current Limitations & Future Work
-
-### Known Limitations
-
-**Technical:**
-- No real-time voice streaming (batch generation only)
-- Single-user sessions (no concurrency)
-- Pricing data requires manual catalog maintenance
-- Session state does not persist between conversations
-- Audio playback requires browser compatibility
-
-**Operational:**
-- Primer video pipeline requires email trigger (not API-triggered)
-- Limited error recovery in autonomous workflows
-- No comprehensive regression testing framework yet
-- Knowledge base updates require manual S3 uploads
-
-**Architectural:**
-- Streamlit constrains scaling and real-time features
-- No distributed state management
-- Limited mobile experience
-- No multi-tenant support
-
 ### Planned Improvements
 
 **Short Term (v2.x - Current Streamlit):**
@@ -413,15 +353,6 @@ Hard-E performs actual business operations (CRM writes, file generation, API cal
 - API for external integrations
 
 ---
-
-## Getting Started (Conceptual)
-
-This repository provides architectural documentation and design patterns. To understand Hard-E:
-
-1. Read `agent_config.yaml` – Complete system configuration with all agents and tools
-2. Explore `docs/architecture-deep-dive.md` – Technical implementation details
-3. Review `docs/autonomous-workflows.md` – Autonomous pipeline execution patterns
-4. Study `examples/` – Synthetic conversation flows and tool call patterns
 
 **Note:** This repository does not include runnable code. The production system requires:
 
@@ -455,10 +386,7 @@ Hard-E is a template for AI employees across industries. The patterns proven her
 
 This is a showcase repository—not open for external contributions. The production system contains proprietary integrations and customer data.
 
-For inquiries about Hard-E's architecture, AI agent design patterns, or collaboration opportunities:
-
-- **Discussions:** [Enable GitHub Discussions on this repo]
-- **Professional inquiries:** [Contact information if desired]
+For inquiries about Hard-E's architecture, AI agent design patterns, or collaboration opportunities: fotiosmpouris@gmail.com
 
 ---
 
