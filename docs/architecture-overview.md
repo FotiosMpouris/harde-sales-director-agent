@@ -1,6 +1,6 @@
 # Hard-E Architecture Overview
 
-Hard-E is an AI-powered Sales Director for residential contracting companies (specifically Patriot Contracting Inc.). It automates and augments critical sales workflows through natural conversation:
+Hard-E is an AI-powered Sales Director for residential contracting companies. It automates and augments critical sales workflows through natural conversation:
 
 - **Script Generation** - Proposal and primer video scripts with job context
 - **Customer Creation** - CRM integration with 95%+ accuracy from voice input
@@ -11,7 +11,7 @@ Hard-E is an AI-powered Sales Director for residential contracting companies (sp
 - **Web Search** - External product information and specifications
 - **Transcript Analysis** - Pattern recognition across historical sales conversations
 
-This document describes the **production architecture** of the system as of November 2025.
+This document describes the **production architecture** of the system as of December 2025.
 
 ---
 
@@ -22,7 +22,7 @@ Hard-E operates as a four-layer system with hybrid processing capabilities:
 ### 1.1. Interface Layer
 
 **Current (Production):**
-- **Streamlit Web UI** - Browser-based interface at https://streaming.harde.app
+- **Streamlit Web UI** - Browser-based interface at https://harde.app
 - **Voice Input** - Real-time speech-to-text via OpenAI Whisper
 - **Audio Output** - Text-to-speech with session-based playback
 - **Mobile Support** - Android validated, iOS with autoplay limitations
@@ -145,9 +145,9 @@ redis_keys = {
 
 **Knowledge Base (S3):**
 ```
-s3://hard-e-transcripts/
+s3://hard/
 ├── training/                    # General sales training (~6 KB)
-├── Yarmouth/                    # Project-specific knowledge
+├── Dartmouth/                    # Project-specific knowledge
 ├── distilled_transcripts/       # 90 structured JSONs
 ├── meeting_summaries/           # Planned: sales meeting notes
 ├── price_book/
@@ -310,7 +310,7 @@ timer_state = {
 ```
 Trigger: Job stage changed to "Permission to Measure" in Leap CRM
 
-1. Leap Automation: Sends email to poorpeoplepundit@gmail.com
+1. Leap Automation: Sends email to private@gmail.com
    Subject: "Please produce Primer Video"
    Body: HTML with customer name in db-element span
 
@@ -369,7 +369,6 @@ Trigger: Job stage changed to "Permission to Measure" in Leap CRM
     - Best-effort Cloudinary asset cleanup
     - Clear cached audio paths
     
-Total Time: 18-22 minutes (mostly waiting for Drive)
 Human Involvement: Zero
 ```
 
@@ -382,9 +381,9 @@ Human Involvement: Zero
 **Infrastructure:**
 - **Compute**: AWS EC2 t3.small (2 vCPU, 2 GiB RAM, 20 GiB EBS)
 - **OS**: Amazon Linux 2
-- **Region**: us-east-2 (Ohio)
-- **Storage**: S3 (hard-e-transcripts bucket, ~4 MB)
-- **Networking**: Elastic IP (3.149.127.157), domain (streaming.harde.app)
+- **Region**: 
+- **Storage**: S3 (bucket, ~4 MB)
+- **Networking**: Elastic IP, domain 
 
 **Application Stack:**
 - **Framework**: Streamlit (1.44.0)
@@ -399,11 +398,11 @@ Human Involvement: Zero
 - **Auth**: HTTP Basic Authentication via .htpasswd
 
 **Process Management:**
-- **Main App**: systemd service (harde-streaming.service)
+- **Main App**: systemd service (harde.service)
   - Port: 8504
   - User: ec2-user
   - Auto-start on boot, restart on failure
-  - Logs: `sudo journalctl -u harde-streaming -f`
+  - Logs: `sudo journalctl -u harde-f`
 
 - **Email Listener**: Daemonized background process
   - Command: `nohup python3 -u email_listener.py &`
@@ -411,10 +410,10 @@ Human Involvement: Zero
   - Monitoring: `ps aux | grep email_listener`
 
 **Secrets Management:**
-- **File**: /home/ec2-user/hard-e-streaming/secrets.toml (chmod 600)
+- **File**: secrets.toml 
 - **Contents**: API keys for OpenAI, xAI, Leap, Perplexity, ElevenLabs, Cloudinary
-- **Service Accounts**: Google Drive (hard-e-drive-sa.json, chmod 600)
-- **Tokens**: RA Token (ra_token.txt, manually refreshed)
+- **Service Accounts**: Google Drive 
+- **Tokens**: RA Token 
 
 **Monitoring:**
 - **Query Logs**: S3 (query_log.txt with timestamps)
@@ -425,16 +424,16 @@ Human Involvement: Zero
 ### 3.2. Dual Environment Architecture (Development)
 
 **Legacy Production:**
-- Directory: /home/ec2-user/hard-e-production/
+- Directory: 
 - Port: 8501
-- URL: agent.harde.app
+- URL: harde.app
 - SDK Version: openai-agents==0.0.4
 - Status: Maintained but not actively used
 
 **Current Production:**
-- Directory: /home/ec2-user/hard-e-streaming/
+- Directory: /home/ec2-user/"x"/
 - Port: 8504
-- URL: streaming.harde.app
+- URL: harde.app
 - SDK Version: openai-agents>=0.0.17
 - Status: Primary production environment
 
@@ -455,11 +454,11 @@ Human Involvement: Zero
 - **State**: React hooks (useState, useReducer, useContext)
 - **Streaming**: SSE consumption via custom hooks
 - **Voice**: WebAudio API for recording, WebSocket for vendor integration
-- **URL**: https://next.harde.app/app/
+- **URL**: https://harde.app
 
 **Backend:**
 - **Framework**: FastAPI (async Python)
-- **Server**: Uvicorn with multi-worker support (2-4 workers on t3.small)
+- **Server**: Uvicorn with multi-worker support (2-4 workers on t3.medium or t3.large)
 - **API Design**: RESTful endpoints at /api/*
 - **Streaming**: Server-Sent Events (SSE) for text, WebSocket for voice
 - **State**: Redis 6 (localhost:6379) for distributed session management
@@ -485,9 +484,9 @@ Human Involvement: Zero
 **Migration Strategy:**
 ```
 Phase 1: Parallel Development (No Production Disruption)
-- Build v3.0 in /home/ec2-user/hard-e-next/
-- Streamlit production stays on streaming.harde.app
-- Test at next.harde.app
+- Build v3.0 
+- Streamlit production stays on harde.app
+- Test at harde.app
 
 Phase 2: Beta Testing
 - Select users try v3.0 while majority stay on Streamlit
@@ -512,12 +511,6 @@ Current Usage (t3.small, 2 GiB RAM):
 - OS + services: ~400 MB
 - Available: ~1.2 GiB
 
-Projected v3.0 Usage:
-- FastAPI (2 workers): ~240 MB
-- Redis: ~60 MB
-- React (Nginx serving static): ~40 MB
-- Existing Streamlit (during transition): ~350 MB
-- Total: ~690 MB (comfortable headroom on t3.small)
 
 Scaling Trigger: Upgrade to t3.medium (4 GiB) if:
 - Concurrent users > 5 sustained
@@ -547,13 +540,6 @@ Scaling Trigger: Upgrade to t3.medium (4 GiB) if:
 - **Input Validation**: Basic sanitation, LLM-based extraction
 - **Error Handling**: Try/except blocks prevent crashes, log full context
 
-### 4.2. Known Security Gaps
-
-⚠️ **Secrets Management**: File-based storage, not AWS Secrets Manager  
-⚠️ **PII Retention**: No data retention policy or automatic deletion  
-⚠️ **Access Control**: Single user account, no RBAC  
-⚠️ **RA Token**: Manual refresh, no expiry monitoring  
-⚠️ **Query Logs**: Indefinite retention of customer data in plain text
 
 ### 4.3. Planned Improvements
 
@@ -584,11 +570,6 @@ Scaling Trigger: Upgrade to t3.medium (4 GiB) if:
 - Project details (property information)
 - Pricing discussions (budget ranges)
 - Sales rep names and strategies
-
-**Compliance Considerations:**
-- **GDPR** (if EU customers): Right to access, rectification, deletion
-- **CCPA** (California): Consumer rights to know, delete, opt-out
-- **Industry Standards**: CRM data typically covered under business contracts
 
 **Current Practice:**
 - Transcripts stored in S3 (private bucket)
@@ -825,7 +806,7 @@ HOVER_KEYWORDS = ["hover", "3d model", "measurements", "roof dimensions"]
 - **Multi-User Support**: RBAC, individual session isolation
 - **Advanced Analytics**: Usage dashboards, success rate tracking
 
-### 7.3. Long-Term (SaaS Platform - 2027+)
+### 7.3. Long-Term (SaaS Platform - 2026+)
 
 **Focus**: Template for industry-specific AI employees
 
@@ -883,10 +864,11 @@ HOVER_KEYWORDS = ["hover", "3d model", "measurements", "roof dimensions"]
 ---
 
 **Document Version**: 2.0  
-**Last Updated**: November 17, 2025  
+**Last Updated**: December 11, 2025  
 **Status**: Production Architecture (Streamlit), v3.0 In Development (React/FastAPI)  
 **Next Review**: After v3.0 beta launch
 
 ---
 
 *This architecture overview is intended for technical stakeholders, developers, and system architects. For strategic vision and business context, see the Hard-E Blueprint and Core Roles document. For comprehensive implementation details, see the 128-page Hard-E Progress and Technical Log.*
+
