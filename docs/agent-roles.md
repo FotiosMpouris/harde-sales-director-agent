@@ -26,7 +26,7 @@ Analyze user queries and conversation history to route tasks to the appropriate 
 
 **Routing Logic Priority:**
 1. **Ongoing Processes**: If ScriptingAgent or NewClientsAgent recently asked for details and user provides them
-2. **Keyword Detection**: Specific terms trigger specific agents ("Yarmouth" → KnowledgeAgent, "create script" → ScriptingAgent)
+2. **Keyword Detection**: Specific terms trigger specific agents ("Dartmouth" → KnowledgeAgent, "create script" → ScriptingAgent)
 3. **Conversation History Analysis**: Examines last 3-5 turns to detect continuation of previous conversations
 4. **Explicit Requests**: Direct mentions of agent capabilities
 5. **Clarification**: If intent unclear after all checks, ask for clarification
@@ -437,3 +437,4 @@ This agent architecture is designed for extensibility:
 ---
 
 **This design document represents the production system as of November 2025. Actual implementation includes proprietary prompts, fine-tuned parameters, and integration details not shown here.**
+
