@@ -36,10 +36,10 @@ Analyze user queries and conversation history to route tasks to the appropriate 
 **Tools:** None (routing only via agent handoffs)
 
 **Example Behaviors:**
-- User: "What did we discuss in the Yarmouth meeting?" → Route to **KnowledgeAgent**
+- User: "What did we discuss in the Dartmouth meeting?" → Route to **KnowledgeAgent**
 - User: "Create a proposal script" → Route to **ScriptingAgent**
 - User: "Add new customer John Doe" → Route to **NewClientsAgent**
-- User: "What's the job status for 5842351?" → Route to **LeapInteractionAgent**
+- User: "What's the job status for 566679?" → Route to **LeapInteractionAgent**
 
 ---
 
@@ -63,13 +63,13 @@ Execute all Leap CRM interactions for existing customer and job data. Handles re
 Smart fallback pattern—attempts RA Token authentication for notifications, gracefully falls back to standard V3 API if unavailable.
 
 **Example Behaviors:**
-- User: "What's the status of job 5842351?" → Retrieve current job stage
+- User: "What's the status of job 566679?" → Retrieve current job stage
 - User: "Get notes for the Johnson project" → Fetch all job notes
 - User: "Move job to Contract stage" → Update stage with optional workflow trigger
-- User: "Add note: @Jim Ward please follow up" → Create note with notification
+- User: "Add note: @Scott Kelly please follow up" → Create note with notification
 
 **Special Features:**
-- **@Mention Format**: Transforms "@Jim Ward" → "@[u:88008]" for notifications
+- **@Mention Format**: Transforms "@Scott Kelly" → "@[u:855997]" for notifications
 - **Stage Updates**: Uses numeric stage IDs (11 stages from "Lead" to "Paid")
 - **Comprehensive Lookup**: Single query returns customer + job + notes
 
@@ -84,7 +84,7 @@ Answer questions based on company training materials and project-specific knowle
 
 **Data Sources:**
 - `s3://hard-e-transcripts/training/` - General sales training materials
-- `s3://hard-e-transcripts/Yarmouth/` - Yarmouth Place Project documentation
+- `s3://hard-e-transcripts/Yarmouth/` - Dartmouth Place Project documentation
 - `s3://hard-e-transcripts/meeting_summaries/` - Sales meeting notes (planned)
 - `s3://hard-e-transcripts/price_book/` - Pricing catalog data
 
@@ -100,7 +100,7 @@ Answer questions based on company training materials and project-specific knowle
 **Example Behaviors:**
 - User: "What does the training say about LeadScout?" → Search training materials
 - User: "What's our process for budget-conscious homeowners?" → Synthesize from training docs
-- User: "Tell me about the Yarmouth Place Project" → Query project-specific knowledge base
+- User: "Tell me about the Dartmouth Place Project" → Query project-specific knowledge base
 
 **Grounding Principle:** Never hallucinates. If answer not in documents, explicitly states "This information is not in the available training materials."
 
@@ -135,7 +135,7 @@ Uses `ScriptDraftState` dataclass to track:
 
 **Example Behaviors:**
 - User: "Create a proposal script" → ScriptingAgent: "I'll need the Job ID"
-- User: "Job 6142599" → ScriptingAgent: [fetches context] "Now I need client name, project type, and focus material"
+- User: "Job 677789" → ScriptingAgent: [fetches context] "Now I need client name, project type, and focus material"
 - User: "Client is Jane Smith, siding replacement, James Hardie" → [Generates full script]
 
 **Primer Scripts:**
@@ -437,4 +437,5 @@ This agent architecture is designed for extensibility:
 ---
 
 **This design document represents the production system as of November 2025. Actual implementation includes proprietary prompts, fine-tuned parameters, and integration details not shown here.**
+
 
