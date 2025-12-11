@@ -21,7 +21,7 @@ It is designed to:
 - **Voice interface** (Whisper for speech-to-text + TTS for responses)  
 - **Transcript analysis** stored in S3 for ongoing training and coaching  
 - **Sales workflow integration**, including CRM and supplier pricing APIs  
-- A planned **PriceAnalystAgent** that uses real pricing data (e.g., ABC Supply) and Palantir Foundry pipelines.
+- **PriceAnalystAgent** that uses real pricing data (e.g., ABC Supply) and Palantir Foundry pipelines.
 
 The philosophy behind Hard-E:
 
